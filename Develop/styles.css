@@ -7,6 +7,20 @@
 }
 
 /* Header Section */
+#high-scores {
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    background-color: #fff;
+}
+
+#high-scores:hover {
+    border: 2px solid rgb(25, 0, 69);
+    border-radius: 0.5rem;
+    background-color: rgb(25, 0, 69);
+    color: #fff;
+}
+
 .header-wrapper {
     height: 15vh;
     margin: 1rem;
@@ -40,6 +54,20 @@
 
 .section-wrapper {
     padding: 0 30rem;
+}
+
+.question {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.answers {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 0;
 }
 
 /* Button Section */

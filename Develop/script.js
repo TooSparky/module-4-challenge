@@ -34,9 +34,10 @@ function startTimer() {
     }, 1000);
 }
 
-// All 5 of my quiz questions
+// All 5 of my quiz questions in an array
 var myQuestions = [
     {
+        // Question 1
         question: 'Commonly used data types DO NOT include: ',
         answers: {
             answerChoice1: 'strings',
@@ -47,7 +48,8 @@ var myQuestions = [
         correctAnswer: 'answerChoice3'
     },
     {
-        question: 'An if / else statement is enclosed with: ',
+        // Question 2
+        question: 'An if / else statement is enclosed with _____.',
         answers: {
             answerChoice1: "curly brackets",
             answerChoice2: "quotes",
@@ -57,7 +59,8 @@ var myQuestions = [
         correctAnswer: 'answerChoice4'
     },
     {
-        question: 'Arrays in JavaScript can be used to store: ',
+        // Question 3
+        question: 'Arrays in JavaScript can be used to store _____.',
         answers: {
             answerChoice1: 'numbers and strings',
             answerChoice2: 'booleans',
@@ -67,7 +70,8 @@ var myQuestions = [
         correctAnswer: 'answerChoice4'
     },
     {
-        question: 'A very useful tool for debugging is ',
+        // Question 4
+        question: 'A very useful tool for debugging is _____.',
         answers: {
             answerChoice1: 'for loops',
             answerChoice2: 'cascading style sheets',
@@ -77,6 +81,7 @@ var myQuestions = [
         correctAnswer: 'answerChoice3'
     },
     {
+        // Question 5
         question: 'How do you get an ID using QuerySelector?',
         answers: {
             answerChoice1: 'querySelectorAll',
@@ -89,7 +94,7 @@ var myQuestions = [
 ];
 
 // To load the questions after the start button is pressed
-function renderQuestions(questions, quizContainer) {
+function renderQuestions() {
     // Local scope variables
     var answers;
     var answerChoice;
@@ -100,25 +105,68 @@ function renderQuestions(questions, quizContainer) {
         startButton.remove();
         answers = [];
 
-        // myQuestions.question
-        // myQuestions.answers.answerChoice1
-        // myQuestions.correctAnswer
+        // If / Else statement to determine each question / answer display
+        if (startButton) {
 
-        for (answerChoice in questions[i].answers) {
-            answers.push('<label>' + '<input type="radio" name="question' + i + '" value="' + answerChoice + '">'
-            + answerChoice + ': ' + questions[i].answers[answerChoice] + '</label>');
+            // Loop for answer choices
+            //    PROBLEM: answers display 'answerChoise1-4' instead of actual string value
+            for (answerChoice in myQuestions[i].answers) {
+                answers.push('<label>' + '<input type="radio" name="question' + i +
+                 '" value="' + answerChoice + '">' + answerChoice.toString() + '</label>');
+            }
+    
+            // Actual output displays ALL QUESTIONS & ANSWERS
+            output.push('<div class="question">' + myQuestions[i].question + '</div>'
+            + '<div class="answers">' + answers.join(' ') + '</div>');
+            
+            answerDisplay.innerHTML = output;
+
+            // In theory, when answer is checked, shows next question
+            if (answers.onclick) {
+                for (answerChoice in myQuestions[i].answers) {
+                    answers.push('<label>' + '<input type="radio" name="question' + i +
+                     '" value="' + answerChoice + '">' + answerChoice.toString() + '</label>');
+                }
+
+                output.push('<div class="question">' + myQuestions[i].question + '</div>'
+            + '<div class="answers">' + answers.join(' ') + '</div>');
+            
+            answerDisplay.innerHTML = output;
+            }
+
         }
+           //   PROBLEM: submit button wont show, only first question loads in as well
+        // Submit button to turn in quiz and get high score
+        var submitButton = appendChild('<button ' + 'id="submit-button" type="submit"' + 'Submit Quiz' + '</button>');
+        submitButton = document.getElementById('submit-button');
+        answerDisplay.textContent = submitButton;
+    }
+}
 
-        output.push('<div class="question">' + questions[i].question + '</div>'
-        + '<div class="answers">' + answers.join('') + '</div>');
+// display 1 question at a time
+// display answer choices instead of just the button
+
+function showResults() {
+    var userAnswer = '';
+    var numCorrect = 0;
+
+    for (var i = 0; i < myQuestions.length; i++) {
+        userAnswer = (answerDisplay[i].querySelector('input[name=question' + i + ']:checked')).value;
+
+        if (userAnswer === myQuestions[i].correctAnswer) {
+            numCorrect++;
+        }
+        else {
+            console.log('no points for you');
+        }
     }
 
-    quizContainer.textContent = output.join('');
-
+    highScore.innerHTML = numCorrect;
 }
 
 // To save the high scores to
-function savedScore() {
+submitButton.onclick = function savedScore() {
+    showResults();
 }
 
 // To clear the high scores when button is pressed
