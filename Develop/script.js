@@ -5,6 +5,8 @@ var startButton = document.getElementById("button");
 var count = document.getElementById("count");
 var questionDisplay = document.getElementById("h1");
 var answerDisplay = document.getElementById("p");
+var buttonChanger = document.getElementById("btn-wrapper");
+var highscoreDisplay = document.getElementById("highscore-display");
 
 var timerCount = 75;
 
@@ -45,7 +47,7 @@ var myQuestions = [
             answerChoice3: 'alerts',
             answerChoice4: 'booleans'
         },
-        correctAnswer: 'answerChoice3'
+        correctAnswer: 'alerts'
     },
     {
         // Question 2
@@ -56,7 +58,7 @@ var myQuestions = [
             answerChoice3: "square brackets",
             answerChoice4: "parenthesis"
         },
-        correctAnswer: 'answerChoice4'
+        correctAnswer: 'parenthesis'
     },
     {
         // Question 3
@@ -67,7 +69,7 @@ var myQuestions = [
             answerChoice3: 'objects',
             answerChoice4: 'all of the above'
         },
-        correctAnswer: 'answerChoice4'
+        correctAnswer: 'all of the above'
     },
     {
         // Question 4
@@ -78,7 +80,7 @@ var myQuestions = [
             answerChoice3: 'console.log',
             answerChoice4: 'bash terminal'
         },
-        correctAnswer: 'answerChoice3'
+        correctAnswer: 'console.log'
     },
     {
         // Question 5
@@ -89,92 +91,93 @@ var myQuestions = [
             answerChoice3: "querySelector('#ID')",
             answerChoice4: "querySelector('ID')"
         },
-        correctAnswer: 'answerChoice3'
+        correctAnswer: "querySelector('#ID')"
     }
 ];
 
-// To load the questions after the start button is pressed
+// Loads the questions after the start button is pressed
 function renderQuestions() {
     // Local scope variables
-    var answers;
+    var answers = [];
     var answerChoice;
     var output = [];
     var questionCounter = 5;
 
     for (var i = 0; i < questionCounter; i++) {
         startButton.remove();
+        questionDisplay.remove();
         answers = [];
 
-        // If / Else statement to determine each question / answer display
-        if (startButton) {
-
             // Loop for answer choices
-            //    PROBLEM: answers display 'answerChoise1-4' instead of actual string value
             for (answerChoice in myQuestions[i].answers) {
                 answers.push('<label>' + '<input type="radio" name="question' + i +
-                 '" value="' + answerChoice + '">' + answerChoice.toString() + '</label>');
+                 '" value="' + myQuestions[i].answers[answerChoice] + '">' 
+                 + myQuestions[i].answers[answerChoice] + '</label>');
             }
     
             // Actual output displays ALL QUESTIONS & ANSWERS
             output.push('<div class="question">' + myQuestions[i].question + '</div>'
             + '<div class="answers">' + answers.join(' ') + '</div>');
             
+            console.log(answers);
+
             answerDisplay.innerHTML = output;
 
             // In theory, when answer is checked, shows next question
             if (answers.onclick) {
                 for (answerChoice in myQuestions[i].answers) {
-                    answers.push('<label>' + '<input type="radio" name="question' + i +
+                    answers.push('<label>' + '<input type="button" name="question' + i +
                      '" value="' + answerChoice + '">' + answerChoice.toString() + '</label>');
                 }
 
                 output.push('<div class="question">' + myQuestions[i].question + '</div>'
             + '<div class="answers">' + answers.join(' ') + '</div>');
-            
-            answerDisplay.innerHTML = output;
             }
 
-        }
-           //   PROBLEM: submit button wont show, only first question loads in as well
-        // Submit button to turn in quiz and get high score
-        var submitButton = appendChild('<button ' + 'id="submit-button" type="submit"' + 'Submit Quiz' + '</button>');
-        submitButton = document.getElementById('submit-button');
-        answerDisplay.textContent = submitButton;
+        // This keeps only one question loaded at once
+        buttonChanger.innerHTML = submitButton;
+
+        // Runs the showResults function
+        showResults();
     }
 }
 
-// display 1 question at a time
-// display answer choices instead of just the button
-
+// Checks if the answers are correct or not
 function showResults() {
     var userAnswer = '';
     var numCorrect = 0;
+    var answerPenalty = 10;
 
     for (var i = 0; i < myQuestions.length; i++) {
         userAnswer = (answerDisplay[i].querySelector('input[name=question' + i + ']:checked')).value;
 
         if (userAnswer === myQuestions[i].correctAnswer) {
             numCorrect++;
+            console.log('points added');
         }
         else {
+            // Subtracts time when answered incorrectly (hopefully)
+            timerElement.textContent = timerCount - answerPenalty;
             console.log('no points for you');
         }
     }
 
-    highScore.innerHTML = numCorrect;
+    // Displays how many questions the user got correct
+    highscoreDisplay.textContent = 'You got ' + numCorrect + ' out of 5 questions correct';
+
+    // Runs savedScore function to save the score
+    savedScore();
 }
 
-// To save the high scores to
-submitButton.onclick = function savedScore() {
-    showResults();
+// To save the high scores
+function savedScore() {
+    //NEED to save score and add initials
 }
 
 // To clear the high scores when button is pressed
 function clearScore() {
+    
 }
-
-
-
 
 // GIVEN I am taking a code quiz
 // WHEN I click the start button
@@ -187,41 +190,3 @@ function clearScore() {
 // THEN the game is over
 // WHEN the game is over
 // THEN I can save my initials and score
-
-
-// function renderQuestions() {
-//     var questions = 5;
-    
-//     for (var i = 0; i < questions; i++) {
-//         if (i <= 1) {
-//             var questionOne = "Commonly used data types DO NOT include: ";
-            
-
-//             questionOne = questionDisplay.textContent;
-
-//             var answerOne = ["strings", "booleans", "alerts", "numbers"];
-//             var theAnswerToOne = answerOne[2];
-            
-//             if (theAnswerToOne === answerOne[2]) {
-//                 console.log('correct');
-//                 savedScore();
-//             }
-//             else {
-//                 console.log('wrong');
-//             }
-//         }
-//         else if (i <= 2) {
-//             var questionTwo = "An if / else statement is enclosed with: ";
-
-//         }
-//         else if (i <= 3) {
-
-//         }
-//         else if (i <= 4) {
-
-//         }
-//         else if (i <= 5) {
-
-//         }
-//     }
-// }
