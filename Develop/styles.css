@@ -79,7 +79,7 @@
 }
 
 /* Button Section */
-#button {
+.btn {
     border: 2px solid rgb(25, 0, 69);
     background-color:rgb(25, 0, 69);
     border-radius: 0.5rem;
@@ -141,4 +141,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.hide {
+    display: none;
 }

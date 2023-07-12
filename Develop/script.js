@@ -7,8 +7,12 @@ var questionDisplay = document.getElementById("h1");
 var answerDisplay = document.getElementById("p");
 var buttonChanger = document.getElementById("btn-wrapper");
 var highscoreDisplay = document.getElementById("highscore-display");
+var clearScore = document.getElementById("clear-scores");
 
 var timerCount = 75;
+var numCorrect = 0;
+
+startButton.classList.remove('hide');
 
 // Starts running the program when the start button is pressed
 startButton.addEventListener('click', function(event) {
@@ -17,6 +21,7 @@ startButton.addEventListener('click', function(event) {
     // Runs these functions when 'start quiz' is clicked
     startTimer();
     renderQuestions();
+    showAnswerBtns();
 
 });
 
@@ -104,7 +109,7 @@ function renderQuestions() {
     var questionCounter = 5;
 
     for (var i = 0; i < questionCounter; i++) {
-        startButton.remove();
+        startButton.classList.add('hide');
         questionDisplay.remove();
         answers = [];
 
@@ -119,33 +124,30 @@ function renderQuestions() {
             output.push('<div class="question">' + myQuestions[i].question + '</div>'
             + '<div class="answers">' + answers.join(' ') + '</div>');
             
+            //for test
             console.log(answers);
 
+            // Output being displayed
             answerDisplay.innerHTML = output;
 
-            // In theory, when answer is checked, shows next question
-            if (answers.onclick) {
-                for (answerChoice in myQuestions[i].answers) {
-                    answers.push('<label>' + '<input type="button" name="question' + i +
-                     '" value="' + answerChoice + '">' + answerChoice.toString() + '</label>');
-                }
+            // This allows a 'next question' button to appear
+            var nextQuestion = document.getElementById("button-next");
+            nextQuestion.textContent = 'Next Question';
+            nextQuestion.classList.remove('hide');
 
-                output.push('<div class="question">' + myQuestions[i].question + '</div>'
-            + '<div class="answers">' + answers.join(' ') + '</div>');
-            }
-
-        // This keeps only one question loaded at once
-        buttonChanger.innerHTML = submitButton;
-
-        // Runs the showResults function
-        showResults();
     }
+    // Runs the showResults function
+    showResults();
+}
+
+// Created answer buttons to click for next
+function showAnswerBtns() {
+    answerBtn.setAttribute('style', 'visibility: visible');
 }
 
 // Checks if the answers are correct or not
 function showResults() {
     var userAnswer = '';
-    var numCorrect = 0;
     var answerPenalty = 10;
 
     for (var i = 0; i < myQuestions.length; i++) {
@@ -165,6 +167,8 @@ function showResults() {
     // Displays how many questions the user got correct
     highscoreDisplay.textContent = 'You got ' + numCorrect + ' out of 5 questions correct';
 
+    // NEED to add spot to put initials, take that value and save to highscores tab
+
     // Runs savedScore function to save the score
     savedScore();
 }
@@ -172,12 +176,19 @@ function showResults() {
 // To save the high scores
 function savedScore() {
     //NEED to save score and add initials
+    highscoreDisplay.textContent = 'You finished the quiz! Please enter your initials';
+
+    // NEED to add spot to put initials, take that value and save to highscores tab
+
 }
 
 // To clear the high scores when button is pressed
-function clearScore() {
-    
-}
+clearScore.addEventListener('click', function() {
+    //Resets the numCorrect from what it was to 0
+    numCorrect = 0;
+    highscoreDisplay.textContent = 'There are no currect highscores';
+});
+
 
 // GIVEN I am taking a code quiz
 // WHEN I click the start button
