@@ -6,8 +6,8 @@ I built this application to take a quick JavaScript quiz and save the highscores
 
 ## Installation
 
-Go to the deployed application link here
-
+Go to the deployed application link here:
+https://toosparky.github.io/module-4-challenge/
 
 ## Usage
 
